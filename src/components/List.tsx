@@ -3,9 +3,9 @@ import { useState } from "react"
 export const List = () => {
 
     const [input, setInput] = useState('')
-    const [done, setDone] = useState(false)
+    const [done, setDone] = useState([])
     const [tasks, setTasks] = useState([])
-
+    
     const saveTask = () => {
         setTasks([...tasks,input])
     }
@@ -15,8 +15,10 @@ export const List = () => {
         setTasks(filteredTasks)
     }
 
-    const completeTask = () => {
-        setDone(true)
+    const completeTask = (taskID) => {
+        const completedTasks = tasks.filter((_,index) => taskID === index)
+        setDone(completedTasks)
+        deleteTask(taskID)
     }
     return (
         <>
@@ -28,7 +30,17 @@ export const List = () => {
                     <div key={index}>
                         <h2>{task}</h2>
                         <button onClick={() => deleteTask(index)}>delete task</button>
-                        <button onClick={completeTask}>complete task</button>
+                        <button onClick={() => completeTask(index)}>complete task</button>
+                    </div>
+                )
+            })}
+
+            <h1>Completed tasks</h1>
+            {done.map((task,index) => {
+                return(
+                    <div key={index}>
+                        <h2>{task}</h2>
+                        <button onClick={() => deleteTask(index)}>delete task</button>                        
                     </div>
                 )
             })}
