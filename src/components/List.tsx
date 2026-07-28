@@ -10,6 +10,11 @@ export const List = () => {
         setTasks([...tasks,input])
     }
 
+    const deleteTask = (taskID) => {
+        const filteredTasks = tasks.filter((_,index) => taskID !== index)
+        setTasks(filteredTasks)
+    }
+
     const completeTask = () => {
         setDone(true)
     }
@@ -18,13 +23,13 @@ export const List = () => {
             <h1>Task list</h1>
             <input type="text" placeholder="insert task" onChange={(e) => setInput(e.target.value)}/>
             <button onClick={saveTask}>Add</button>
-            {tasks.map((task) => {
+            {tasks.map((task, index) => {
                 return(
-                    <>
-
+                    <div key={index}>
                         <h2>{task}</h2>
+                        <button onClick={() => deleteTask(index)}>delete task</button>
                         <button onClick={completeTask}>complete task</button>
-                    </>
+                    </div>
                 )
             })}
         </>
