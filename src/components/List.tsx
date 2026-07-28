@@ -1,5 +1,6 @@
 import { useState } from "react"
-
+import { Task } from "./Task"
+import { CompletedTask } from "./CompletedTask"
 export const List = () => {
 
     const [input, setInput] = useState('')
@@ -18,7 +19,7 @@ export const List = () => {
     const completeTask = (taskID) => {
         const completedTasks = tasks.filter((_,index) => taskID === index)
         setDone(completedTasks)
-        deleteTask(taskID)
+
     }
     return (
         <>
@@ -27,21 +28,14 @@ export const List = () => {
             <button onClick={saveTask}>Add</button>
             {tasks.map((task, index) => {
                 return(
-                    <div key={index}>
-                        <h2>{task}</h2>
-                        <button onClick={() => deleteTask(index)}>delete task</button>
-                        <button onClick={() => completeTask(index)}>complete task</button>
-                    </div>
+                    <Task task={task} index={index} deleteTask={deleteTask} completeTask={completeTask}/>
                 )
             })}
 
             <h1>Completed tasks</h1>
             {done.map((task,index) => {
                 return(
-                    <div key={index}>
-                        <h2>{task}</h2>
-                        <button onClick={() => deleteTask(index)}>delete task</button>                        
-                    </div>
+                    <CompletedTask task={task} index={index} deleteTask={deleteTask}/>
                 )
             })}
         </>
